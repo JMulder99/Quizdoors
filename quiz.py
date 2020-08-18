@@ -27,16 +27,19 @@ def quizmasterspick(prenumber, PRICES):
     PRICES.pop(masterspick)
     return PRICES
 
-
+# one quiz round with PrePick and SecondPick
 def QuizRound(SecChoice, value):
     PRICES = doorgenerator()
     PreNum, PrePick = prepicker(PRICES)
-    if (not SecChoice) and PrePick == 'horse':
-        value += 1
-        return value
+    if not SecChoice:
+        if PrePick == 'horse':
+            value += 1
+            return value
+        else:
+            return value
     else:
         PRICES = quizmasterspick(PreNum, PRICES)
-        if PRICES[randint(0, 1)] == 'horse':
+        if PRICES[(PreNum + 1) % 2] == 'horse':
             value += 1
             return value
         else:
