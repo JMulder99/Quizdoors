@@ -4,11 +4,13 @@
 # IMPORTS
 from random import randint
 from random import shuffle
-
+from time import time
 # DEFINITIONS
 # shuffles door prics
-def doorgenerator(PRICES):
+def doorgenerator():
+    PRICES = ['horse', 'goat', 'goat']
     shuffle(PRICES)
+    return PRICES
 
 
 # first picker
@@ -25,8 +27,9 @@ def quizmasterspick(prenumber, PRICES):
     PRICES.pop(masterspick)
     return PRICES
 
-def loop(PRICES, SecChoice, value):
-    doorgenerator(PRICES)
+
+def QuizRound(SecChoice, value):
+    PRICES = doorgenerator()
     PreNum, PrePick = prepicker(PRICES)
     if (not SecChoice) and PrePick == 'horse':
         value += 1
@@ -38,25 +41,16 @@ def loop(PRICES, SecChoice, value):
             return value
         else:
             return value
+def RunSimulation(SecChoice, value = 0):
+    begin = time()
+    N = 10000
+    for i in range(0, N):
+        value = QuizRound(SecChoice, value)
+    change = value / N
+    print('When SecChoice was set {}, the picker changes are {}'.format(SecChoice, change))
+    print('Duration {:.3f}'.format(time() - begin))
 
 # main
 if __name__ == "__main__":
-    SecChoice = True
-    value = 0
-    N = 10000
-    for i in range(0, N):
-        PRICES = ['horse', 'goat', 'goat']
-        value = loop(PRICES, SecChoice, value)
-    change = value / N
-    print('When SecChoice was set {}, the picker changes are {}'.format(SecChoice, change))
-
-    SecChoice = False
-    value = 0
-    N = 100
-    for i in range(0, N):
-        PRICES = ['horse', 'goat', 'goat']
-        value = loop(PRICES, SecChoice, value)
-    change = value / N
-    print('When SecChoice was set {}, the picker changes are {}'.format(SecChoice, change))
-
-
+    RunSimulation(True)
+    RunSimulation(False)
