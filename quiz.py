@@ -41,9 +41,8 @@ def QuizRound(SecChoice, value):
             return value
         else:
             return value
-def RunSimulation(SecChoice, value = 0):
+def RunSimulation(SecChoice, value = 0, N = 10000):
     begin = time()
-    N = 10000
     for i in range(0, N):
         value = QuizRound(SecChoice, value)
     change = value / N
