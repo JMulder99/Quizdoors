@@ -13,41 +13,32 @@ def doorgenerator():
     return PRICES
 
 
-# first picker
-def prepicker(PRICES):
-    door = randint(0, 2)
-    PrePick = PRICES[door]
-    return door, PrePick
 
 # quiz master will show goat door
 def quizmasterspick(prenumber, PRICES):
     masterspick = (prenumber + 1) % 3
     if PRICES[masterspick] == 'horse':
         masterspick = (masterspick + 1) % 3
-    PRICES.pop(masterspick)
+    PRICES[masterspick] = 0
     return PRICES
 
 # one quiz round with PrePick and SecondPick
 def QuizRound(SecChoice, value):
     PRICES = doorgenerator()
-    PreNum, PrePick = prepicker(PRICES)
-    if not SecChoice:
-        if PrePick == 'horse':
-            value += 1
-            return value
-        else:
-            return value
-    else:
-        PRICES = quizmasterspick(PreNum, PRICES)
-        if PRICES[(PreNum + 1) % 2] == 'horse':
-            value += 1
-            return value
-        else:
-            return value
+    Pick = randint(0, 2)
+    if SecChoice:
+        PRICES = quizmasterspick(Pick, PRICES)
+        Pick = (Pick + 1) % 3
+        if PRICES[(Pick + 1) % 3] == 0:
+            Pick = (Pick + 1) % 3
+
+    return PRICES[Pick] == 'horse'
+
 def RunSimulation(SecChoice, value = 0, N = 10000):
     begin = time()
     for i in range(0, N):
-        value = QuizRound(SecChoice, value)
+        if QuizRound(SecChoice, value):
+            value += 1
     change = value / N
     print('When SecChoice was set {}, the picker changes are {}'.format(SecChoice, change))
     print('Duration {:.3f}'.format(time() - begin))
