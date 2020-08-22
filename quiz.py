@@ -31,8 +31,6 @@ def QuizRound(SecChoice, OPEN):
         for index, door in enumerate(OPEN): 
             if not door: 
                 Pick = index
-
-
     return PRICES[Pick] == 'horse'
 
 def RunSimulation(SecChoice, value = 0, N = 10000):
@@ -42,8 +40,7 @@ def RunSimulation(SecChoice, value = 0, N = 10000):
         if QuizRound(SecChoice, OPEN):
             value += 1
     change = value / N
-    print('When SecChoice was set {}, the picker changes are {}'.format(SecChoice, change))
-    print('Duration {:.3f}'.format(time() - begin))
+    print('When SecChoice was set {}, the picker changes are {} in {:.3f} secs'.format(SecChoice, change, time() - begin))
 
 # main
 if __name__ == "__main__":
